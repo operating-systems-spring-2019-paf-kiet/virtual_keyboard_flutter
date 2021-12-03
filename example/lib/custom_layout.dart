@@ -1,21 +1,18 @@
 import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
 
-class CustomLayoutKeys extends VirtualKeyboardLayoutKeys{
-
+class CustomLayoutKeys extends VirtualKeyboardLayoutKeys {
   @override
   int getLanguagesCount() => 2;
 
-  List<List> getLanguage(int index){
-    switch(index){
-      case 1: 
-      return _arabicLayout;
+  List<List> getLanguage(int index) {
+    switch (index) {
+      case 1:
+        return _arabicLayout;
       default:
-      return defaultEnglishLayout;
+        return defaultEnglishLayout;
     }
   }
-
 }
-
 
 const List<List> _arabicLayout = [
   // Row 1
@@ -32,50 +29,11 @@ const List<List> _arabicLayout = [
     '0',
   ],
   // Row 2
-  const [
-    'ض',
-    'ص',
-    'ث',
-    'ق',
-    'ف',
-    'غ',
-    'ع',
-    'ه',
-    'خ',
-    'ح',
-    'د',
-    VirtualKeyboardKeyAction.Backspace
-  ],
+  const ['ض', 'ص', 'ث', 'ق', 'ف', 'غ', 'ع', 'ه', 'خ', 'ح', 'د', VirtualKeyboardKeyAction.Backspace],
   // Row 3
-  const [
-    'ش',
-    'س',
-    'ي',
-    'ب',
-    'ل',
-    'ا',
-    'ت',
-    'ن',
-    'م',
-    'ك',
-    'ط',
-    VirtualKeyboardKeyAction.Return
-  ],
+  const ['ش', 'س', 'ي', 'ب', 'ل', 'ا', 'ت', 'ن', 'م', 'ك', 'ط', VirtualKeyboardKeyAction.Return],
   // Row 4
-  const [
-    'ذ',
-    'ئ',
-    'ء',
-    'ؤ',
-    'ر',
-    'لا',
-    'ى',
-    'ة',
-    'و',
-    '.',
-    'ظ',
-    VirtualKeyboardKeyAction.Shift
-  ],
+  const ['ذ', 'ئ', 'ء', 'ؤ', 'ر', 'لا', 'ى', 'ة', 'و', '.', 'ظ', VirtualKeyboardKeyAction.Shift],
   // Row 5
   const [
     VirtualKeyboardKeyAction.SwithLanguage,

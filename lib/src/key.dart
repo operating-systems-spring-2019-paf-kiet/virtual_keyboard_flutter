@@ -2,10 +2,10 @@ part of virtual_keyboard_multi_language;
 
 /// Virtual Keyboard key
 class VirtualKeyboardKey {
-  String text;
-  String capsText;
-  final VirtualKeyboardKeyType keyType;
-  final VirtualKeyboardKeyAction action;
+  String? text;
+  String? capsText;
+  final VirtualKeyboardKeyType? keyType;
+  final VirtualKeyboardKeyAction? action;
 
   VirtualKeyboardKey(
       {this.text, this.capsText, @required this.keyType, this.action}){

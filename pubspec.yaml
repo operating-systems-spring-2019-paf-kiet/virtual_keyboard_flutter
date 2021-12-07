@@ -1,4 +1,4 @@
-name: virtual_keyboard_2
+name: virtual_keyboard_smartven
 description: A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy. Forked from virtual_keyboard
 version: 0.0.2
 homepage: https://github.com/ferdiangunawan/virtual_keyboard

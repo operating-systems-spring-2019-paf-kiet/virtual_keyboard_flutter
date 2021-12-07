@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
+import 'package:virtual_keyboard_smartven/virtual_keyboard_smartven.dart';
 
 void main() {
   test('creates keyboard widget with Alphanumeric type', () {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
-import 'package:example/custom_layout.dart';
+import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 void main() => runApp(MyApp());
 
@@ -18,8 +17,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, this.title}) : super(key: key);
-  final String? title;
+  MyHomePage({Key? key, required this.title}) : super(key: key);
+  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -28,18 +27,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   // Holds the text that user typed.
   String text = '';
-  CustomLayoutKeys? _customLayoutKeys;
+
   // True if shift enabled.
   bool shiftEnabled = false;
 
   // is true will show the numeric keyboard.
-  bool isNumericMode = false;
+  bool isNumericMode = true;
 
-  TextEditingController? _controllerText;
+  late TextEditingController _controllerText;
 
   @override
   void initState() {
-    _customLayoutKeys = CustomLayoutKeys();
     _controllerText = TextEditingController();
     super.initState();
   }
@@ -48,22 +46,27 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title!),
+        title: Text(widget.title),
       ),
       body: Center(
         child: Column(
           children: <Widget>[
-            Text(
-              text,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-            Text(
-              _controllerText!.text,
-              style: TextStyle(color: Colors.red),
-            ),
+            Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                child: TextField(
+                  controller: _controllerText,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Your text',
+                  ),
+                )),
             SwitchListTile(
               title: Text(
-                'Keyboard Type = ' + (isNumericMode ? 'VirtualKeyboardType.Numeric' : 'VirtualKeyboardType.Alphanumeric'),
+                'Keyboard Type = ' +
+                    (isNumericMode
+                        ? 'VirtualKeyboardType.Numeric'
+                        : 'VirtualKeyboardType.Alphanumeric'),
               ),
               value: isNumericMode,
               onChanged: (val) {
@@ -79,44 +82,15 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.deepPurple,
               child: VirtualKeyboard(
                   height: 300,
-                  //width: 500,
                   textColor: Colors.white,
-                  textController: _controllerText,
-                  //customLayoutKeys: _customLayoutKeys,
-                  defaultLayouts: [VirtualKeyboardDefaultLayouts.Arabic, VirtualKeyboardDefaultLayouts.English],
-                  //reverseLayout :true,
-                  type: isNumericMode ? VirtualKeyboardType.Numeric : VirtualKeyboardType.Alphanumeric,
-                  onKeyPress: _onKeyPress),
+                  type: isNumericMode
+                      ? VirtualKeyboardType.Numeric
+                      : VirtualKeyboardType.Alphanumeric,
+                  textController: _controllerText),
             )
           ],
         ),
       ),
     );
-  }
-
-  /// Fired when the virtual keyboard key is pressed.
-  _onKeyPress(VirtualKeyboardKey key) {
-    if (key.keyType == VirtualKeyboardKeyType.String) {
-      text = text + (shiftEnabled ? key.capsText : key.text!)!;
-    } else if (key.keyType == VirtualKeyboardKeyType.Action) {
-      switch (key.action) {
-        case VirtualKeyboardKeyAction.Backspace:
-          if (text.length == 0) return;
-          text = text.substring(0, text.length - 1);
-          break;
-        case VirtualKeyboardKeyAction.Return:
-          text = text + '\n';
-          break;
-        case VirtualKeyboardKeyAction.Space:
-          text = text + key.text!;
-          break;
-        case VirtualKeyboardKeyAction.Shift:
-          shiftEnabled = !shiftEnabled;
-          break;
-        default:
-      }
-    }
-    // Update the screen
-    setState(() {});
   }
 }

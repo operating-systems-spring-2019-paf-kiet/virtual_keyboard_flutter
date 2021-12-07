@@ -1,12 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:virtual_keyboard_multi_language/virtual_keyboard_multi_language.dart';
+import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
 
 void main() {
   test('creates keyboard widget with Alphanumeric type', () {
+    final _controllerText = TextEditingController();
     final keyboard = VirtualKeyboard(
       type: VirtualKeyboardType.Alphanumeric,
-      onKeyPress: () => null,
+      textController: _controllerText,
     );
     expect(keyboard.type, VirtualKeyboardType.Alphanumeric);
   });

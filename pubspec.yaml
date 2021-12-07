@@ -1,8 +1,7 @@
-name: virtual_keyboard_multi_language
-description: A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy. 
-version: 0.2.2
-#author: Ahmed El-Araby <ahmed-eg@live.com>
-homepage: https://github.com/ahmed-eg/virtual_keyboard_multi_language
+name: virtual_keyboard_2
+description: A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy. Forked from virtual_keyboard
+version: 0.0.2
+homepage: https://github.com/ferdiangunawan/virtual_keyboard
 
 environment:
   sdk: ">=2.12.0 <3.0.0"

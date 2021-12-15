@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:virtual_keyboard_2/virtual_keyboard_2.dart';
+import 'package:virtual_keyboard_smartven/virtual_keyboard_smartven.dart';
 
 void main() => runApp(MyApp());
 
@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool shiftEnabled = false;
 
   // is true will show the numeric keyboard.
-  bool isNumericMode = true;
+  bool isNumericMode = false;
 
   late TextEditingController _controllerText;
 
@@ -52,8 +52,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextField(
                   controller: _controllerText,
                   decoration: const InputDecoration(
@@ -63,10 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
             SwitchListTile(
               title: Text(
-                'Keyboard Type = ' +
-                    (isNumericMode
-                        ? 'VirtualKeyboardType.Numeric'
-                        : 'VirtualKeyboardType.Alphanumeric'),
+                'Keyboard Type = ' + (isNumericMode ? 'VirtualKeyboardType.Numeric' : 'VirtualKeyboardType.Alphanumeric'),
               ),
               value: isNumericMode,
               onChanged: (val) {
@@ -83,9 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: VirtualKeyboard(
                   height: 300,
                   textColor: Colors.white,
-                  type: isNumericMode
-                      ? VirtualKeyboardType.Numeric
-                      : VirtualKeyboardType.Alphanumeric,
+                  type: isNumericMode ? VirtualKeyboardType.Numeric : VirtualKeyboardType.Alphanumeric,
                   textController: _controllerText),
             )
           ],

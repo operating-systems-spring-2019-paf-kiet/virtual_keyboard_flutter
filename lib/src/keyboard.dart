@@ -61,6 +61,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   late bool alwaysCaps;
   // Text Style for keys.
   late TextStyle textStyle;
+  late Function(VirtualKeyboardKey)? onKeyPress;
 
   // True if shift is enabled.
   bool isShiftEnabled = false;
@@ -74,6 +75,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       textColor = widget.textColor;
       fontSize = widget.fontSize;
       alwaysCaps = widget.alwaysCaps;
+      onKeyPress = widget.onKeyPress;
 
       // Init the Text Style for keys.
       textStyle = TextStyle(
@@ -191,7 +193,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
         child: InkWell(
       onTap: () {
-        widget.onKeyPress ?? _onKeyPress(key);
+        onKeyPress ?? _onKeyPress(key);
       },
       child: Container(
         height: height / _keyRows.length,
@@ -240,7 +242,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
               // Start sending backspace key events while longPress is true
               Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
                 if (longPress) {
-                  widget.onKeyPress ?? _onKeyPress(key);
+                  onKeyPress ?? _onKeyPress(key);
                 } else {
                   // Cancel timer.
                   timer.cancel();
@@ -285,7 +287,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             }
           }
 
-          widget.onKeyPress ?? _onKeyPress(key);
+          onKeyPress ?? _onKeyPress(key);
         },
         child: Container(
           alignment: Alignment.center,

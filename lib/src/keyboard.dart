@@ -220,7 +220,6 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           textController.text += key.text!;
           break;
         case VirtualKeyboardKeyAction.Shift:
-          isShiftEnabled = !isShiftEnabled;
           break;
         default:
       }

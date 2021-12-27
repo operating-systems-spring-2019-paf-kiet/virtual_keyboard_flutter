@@ -1,15 +1,15 @@
-# virtual_keyboard_multi_language
+# virtual_keyboard_flutter
 
 # About
 A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy.
 
-This project has forked from `virtual_keyboard` project because the `virtual_keyboard` project built to only display a buttons on the screen with single language. However, this project will handel the events and aill supports multi-languages.
+This project has forked from `virtual_keyboard_multi_language` project because the `virtual_keyboard_multi_language` project built to only display a buttons on the screen with single language. However, this project will handel the events and aill supports multi-languages.
 
 # Feature and TODO List:
-- (Done) Multi-langugae support.
-- (Done) Customizable layout.
-- (`ToDo`) Option to make a popup floating keyboard/keyNum.
-- (`ToDo`) Adding input result viewer and handel the events.
+- (Done) Refactor to null safety.
+- (Done) Add controller to provide editing text.
+- (Done) make controller and onKeyPress callback become optional.
+
 
 
 <br>
@@ -26,7 +26,8 @@ This project has forked from `virtual_keyboard` project because the `virtual_key
 </p>
 <hr>
 
-
+# Please read:
+You have to choose one between controller(`TextEditingController`) or use `onKeyPress` callback.
 ## Reference
 
 ### VirtualKeyboard 
@@ -194,24 +195,24 @@ Container(
 
 #### onKeyPressed event basic ussage example
 ```dart
-// Just local variable. Use Text widget or similar to show in UI.
-String text;
+// Just local variable. Use TextEditingController or similar to show in UI.
+TextEditingController _controller = TextEditingController();
 
   /// Fired when the virtual keyboard key is pressed.
 _onKeyPress(VirtualKeyboardKey key) {
 if (key.keyType == VirtualKeyboardKeyType.String) {
-    text = text + (shiftEnabled ? key.capsText : key.text);
+    _controller.text += (shiftEnabled ? key.capsText : key.text);
 } else if (key.keyType == VirtualKeyboardKeyType.Action) {
     switch (key.action) {
     case VirtualKeyboardKeyAction.Backspace:
-        if (text.length == 0) return;
-        text = text.substring(0, text.length - 1);
+        if (_controller.text.length == 0) return;
+        _controller.text = _controller.text.substring(0, _controller.text.length - 1);
         break;
     case VirtualKeyboardKeyAction.Return:
-        text = text + '\n';
+        _controller.text = _controller.text + '\n';
         break;
     case VirtualKeyboardKeyAction.Space:
-        text = text + key.text;
+        _controller.text = _controller.text + key.text;
         break;
     case VirtualKeyboardKeyAction.Shift:
         shiftEnabled = !shiftEnabled;
@@ -224,6 +225,6 @@ setState(() {});
 }
 ```
 
-- [Ahmed El-Araby](https://github.com/ahmed-eg)
-- [LICENSE - MIT](https://github.com/ahmed-eg/virtual_keyboard_multi_language/blob/master/LICENSE)
+- [Ferdian Gunawan](https://github.com/ferdiangunawan)
+- [LICENSE - MIT](https://github.com/digitalpomegranate/virtual_keyboard/blob/master/LICENSE)
 

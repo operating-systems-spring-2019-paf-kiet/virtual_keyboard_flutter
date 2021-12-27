@@ -1,24 +1,7 @@
-## [0.0.1] - 03/28/2019.
+## [0.0.1] - 12/27/2021.
 
 * Inital release.
 
-## [0.1.0] - 03/28/2019.
-
-* Added Examples.
-
-## [0.1.1] - 03/28/2019.
-
-* Fixed state update issue.
-
-## [0.1.2] - 03/01/2019.
-
-* Added alwaysCaps property and longPress for backspace.
-
-## [0.1.3] - 03/01/2019.
-
-* Fixed the bug with backspace key.
-
-## [0.2.2] - 19/03/2020.
-
-* Adding multi-language support.
-* Customizable layout.
+## [0.0.2] - 12/27/2021.
+* Migrate to null safety.
+* Add controller optional beside onPress callBack.

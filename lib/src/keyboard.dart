@@ -89,7 +89,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   void initState() {
     super.initState();
 
-    textController = widget.textController!;
+    textController = widget.textController ?? TextEditingController();
     type = widget.type;
     height = widget.height;
     textColor = widget.textColor;
@@ -194,7 +194,12 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
         child: InkWell(
       onTap: () {
-        onKeyPress!(key) ?? _onKeyPress(key);
+        print(onKeyPress);
+        if (onKeyPress != null) {
+          onKeyPress!(key);
+        } else {
+          _onKeyPress(key);
+        }
       },
       child: Container(
         height: height / _keyRows.length,
@@ -243,7 +248,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
               // Start sending backspace key events while longPress is true
               Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
                 if (longPress) {
-                  onKeyPress!(key) ?? _onKeyPress(key);
+                  if (onKeyPress != null) {
+                    onKeyPress!(key);
+                  } else {
+                    _onKeyPress(key);
+                  }
                 } else {
                   // Cancel timer.
                   timer.cancel();
@@ -288,7 +297,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             }
           }
 
-          onKeyPress ?? _onKeyPress(key);
+          if (onKeyPress != null) {
+            onKeyPress!(key);
+          } else {
+            _onKeyPress(key);
+          }
         },
         child: Container(
           alignment: Alignment.center,

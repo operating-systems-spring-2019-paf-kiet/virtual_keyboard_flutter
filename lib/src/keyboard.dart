@@ -193,7 +193,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
         child: InkWell(
       onTap: () {
-        onKeyPress ?? _onKeyPress(key);
+        onKeyPress!(key) ?? _onKeyPress(key);
       },
       child: Container(
         height: height / _keyRows.length,
@@ -242,7 +242,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
               // Start sending backspace key events while longPress is true
               Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
                 if (longPress) {
-                  onKeyPress ?? _onKeyPress(key);
+                  onKeyPress!(key) ?? _onKeyPress(key);
                 } else {
                   // Cancel timer.
                   timer.cancel();

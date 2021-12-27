@@ -29,6 +29,8 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
+  final Function(VirtualKeyboard key)? onKeyPress;
+
   VirtualKeyboard(
       {Key? key,
       required this.type,
@@ -37,6 +39,7 @@ class VirtualKeyboard extends StatefulWidget {
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
       this.fontSize = 14,
+      this.onKeyPress,
       this.alwaysCaps = false})
       : super(key: key);
 
@@ -130,10 +133,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   /// Returns the rows for keyboard.
   List<Widget> _rows() {
     // Get the keyboard Rows
-    List<List<VirtualKeyboardKey>> keyboardRows =
-        type == VirtualKeyboardType.Numeric
-            ? _getKeyboardRowsNumeric()
-            : _getKeyboardRows();
+    List<List<VirtualKeyboardKey>> keyboardRows = type == VirtualKeyboardType.Numeric ? _getKeyboardRowsNumeric() : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
@@ -147,8 +147,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             keyboardRows[rowNum].length,
             (int keyNum) {
               // Get the VirtualKeyboardKey object.
-              VirtualKeyboardKey virtualKeyboardKey =
-                  keyboardRows[rowNum][keyNum];
+              VirtualKeyboardKey virtualKeyboardKey = keyboardRows[rowNum][keyNum];
 
               Widget keyWidget;
 
@@ -192,15 +191,13 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
         child: InkWell(
       onTap: () {
-        _onKeyPress(key);
+        widget.onKeyPress ?? _onKeyPress(key);
       },
       child: Container(
         height: height / _keyRows.length,
         child: Center(
             child: Text(
-          alwaysCaps
-              ? key.capsText!
-              : (isShiftEnabled ? key.capsText! : key.text!),
+          alwaysCaps ? key.capsText! : (isShiftEnabled ? key.capsText! : key.text!),
           style: textStyle,
         )),
       ),
@@ -214,8 +211,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       switch (key.action) {
         case VirtualKeyboardKeyAction.Backspace:
           if (textController.text.length == 0) return;
-          textController.text =
-              textController.text.substring(0, textController.text.length - 1);
+          textController.text = textController.text.substring(0, textController.text.length - 1);
           break;
         case VirtualKeyboardKeyAction.Return:
           textController.text += '\n';
@@ -224,6 +220,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           textController.text += key.text!;
           break;
         case VirtualKeyboardKeyAction.Shift:
+          isShiftEnabled = !isShiftEnabled;
           break;
         default:
       }
@@ -242,11 +239,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             onLongPress: () {
               longPress = true;
               // Start sending backspace key events while longPress is true
-              Timer.periodic(
-                  Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
-                  (timer) {
+              Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
                 if (longPress) {
-                  _onKeyPress(key);
+                  widget.onKeyPress ?? _onKeyPress(key);
                 } else {
                   // Cancel timer.
                   timer.cancel();
@@ -291,7 +286,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             }
           }
 
-          _onKeyPress(key);
+          widget.onKeyPress ?? _onKeyPress(key);
         },
         child: Container(
           alignment: Alignment.center,

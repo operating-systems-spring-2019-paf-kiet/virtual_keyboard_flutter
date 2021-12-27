@@ -15,15 +15,12 @@ Feel free to PR and let's contribute.
 
 <br>
 <p align="center">
-<img style="height:200px;" alt="FlutterBlue" src="https://github.com/ahmed-eg/virtual_keyboard_multi_language/blob/master/screen3.png?raw=true" />
+<img style="height:200px;" alt="FlutterBlue" src="https://github.com/ferdiangunawan/virtual_keyboard_flutter/blob/master/screen3.png?raw=true" />
 </p>
 <br>
-<p align="center">
-<img style="height:200px;" alt="FlutterBlue" src="https://github.com/ahmed-eg/virtual_keyboard_multi_language/blob/master/screen4.png?raw=true" />
-</p>
 <br>
 <p align="center">
-<img style="height:200px;" alt="FlutterBlue" src="https://github.com/ahmed-eg/virtual_keyboard_multi_language/blob/master/screen2.png?raw=true" />
+<img style="height:200px;" alt="FlutterBlue" src="https://github.com/ferdiangunawan/virtual_keyboard_flutter/blob/master/screen2.png?raw=true" />
 </p>
 <hr>
 

@@ -12,7 +12,7 @@ class VirtualKeyboard extends StatefulWidget {
   final VirtualKeyboardType type;
 
   /// The text controller
-  final TextEditingController textController;
+  final TextEditingController? textController;
 
   /// Virtual keyboard height. Default is 300
   final double height;
@@ -34,7 +34,7 @@ class VirtualKeyboard extends StatefulWidget {
   VirtualKeyboard(
       {Key? key,
       required this.type,
-      required this.textController,
+      this.textController,
       this.builder,
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
@@ -89,7 +89,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   void initState() {
     super.initState();
 
-    textController = widget.textController;
+    textController = widget.textController!;
     type = widget.type;
     height = widget.height;
     textColor = widget.textColor;

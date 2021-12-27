@@ -29,7 +29,7 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
-  final Function(VirtualKeyboard key)? onKeyPress;
+  final Function(VirtualKeyboardKey key)? onKeyPress;
 
   VirtualKeyboard(
       {Key? key,

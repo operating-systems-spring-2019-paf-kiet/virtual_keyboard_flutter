@@ -11,3 +11,6 @@
 
 ## [0.0.4] - 12/27/2021.
 * Change readme file
+
+## [0.0.5] - 12/27/2021.
+* Delete wrong documentation photo

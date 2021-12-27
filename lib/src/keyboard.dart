@@ -194,7 +194,6 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
         child: InkWell(
       onTap: () {
-        print(onKeyPress);
         if (onKeyPress != null) {
           onKeyPress!(key);
         } else {

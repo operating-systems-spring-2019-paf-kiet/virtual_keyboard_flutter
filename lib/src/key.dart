@@ -7,6 +7,5 @@ class VirtualKeyboardKey {
   final VirtualKeyboardKeyType keyType;
   final VirtualKeyboardKeyAction? action;
 
-  VirtualKeyboardKey(
-      {this.text, this.capsText, required this.keyType, this.action});
+  VirtualKeyboardKey({this.text, this.capsText, required this.keyType, this.action});
 }

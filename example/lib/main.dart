@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:virtual_keyboard_smartven/virtual_keyboard_smartven.dart';
+import 'package:virtual_keyboard_flutter/virtual_keyboard_flutter.dart';
 
 void main() => runApp(MyApp());
 

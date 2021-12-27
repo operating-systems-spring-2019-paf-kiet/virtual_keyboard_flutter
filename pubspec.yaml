@@ -1,6 +1,6 @@
 name: virtual_keyboard_flutter
 description: A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy. Forked from virtual_keyboard_multi_language
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/ferdiangunawan/virtual_keyboard_flutter
 
 environment:

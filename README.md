@@ -3,7 +3,8 @@
 # About
 A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy.
 
-This project has forked from `virtual_keyboard_multi_language` project because the `virtual_keyboard_multi_language` project built to only display a buttons on the screen with single language. However, this project will handel the events and aill supports multi-languages.
+This project has forked from `virtual_keyboard_multi_language` project because the `virtual_keyboard_multi_language` package has been discontinued and doesn't support null safety. So I refactor to nullsafety and add some usefull method to make this widget easier to use.
+Feel free to PR and let's contribute.
 
 # Feature and TODO List:
 - (Done) Refactor to null safety.

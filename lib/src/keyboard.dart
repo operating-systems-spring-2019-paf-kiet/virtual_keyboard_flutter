@@ -213,18 +213,54 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
   void _onKeyPress(VirtualKeyboardKey key) {
     if (key.keyType == VirtualKeyboardKeyType.String) {
-      textController.text += (isShiftEnabled ? key.capsText! : key.text!);
+      // Insert text at selected position, replacing selected characters, fix selection position to end of edit
+      final text = textController.text;
+      final selection = textController.selection;
+      final newText = text.replaceRange(selection.start, selection.end, (isShiftEnabled ? key.capsText! : key.text!));
+      textController.value = TextEditingValue(
+        text: newText,
+        selection: TextSelection.collapsed(offset: selection.start + key.text!.length),
+      );
     } else if (key.keyType == VirtualKeyboardKeyType.Action) {
       switch (key.action) {
         case VirtualKeyboardKeyAction.Backspace:
           if (textController.text.length == 0) return;
-          textController.text = textController.text.substring(0, textController.text.length - 1);
+          // Remove selected character(s), fix selection position to end of edit
+          final text = textController.text;
+          final selection = textController.selection;
+          String newText = "";
+          int offset = 0;
+          if (selection.baseOffset > 0 && selection.start != selection.end) {
+            newText = text.replaceRange(selection.start, selection.end, "");
+            offset = selection.start;
+          } else if (selection.baseOffset > 0){
+            newText = text.substring(0, selection.baseOffset-1) + text.substring(selection.baseOffset, text.length);
+            offset = selection.baseOffset-1;
+          }
+          textController.value = TextEditingValue(
+            text: newText,
+            selection: TextSelection.collapsed(offset: offset),
+          );
           break;
         case VirtualKeyboardKeyAction.Return:
-          textController.text += '\n';
+          // Insert newline at selected position, replacing selected characters, fix selection position to end of edit
+          final text = textController.text;
+          final selection = textController.selection;
+          final newText = text.replaceRange(selection.start, selection.end, "\n");
+          textController.value = TextEditingValue(
+            text: newText,
+            selection: TextSelection.collapsed(offset: selection.start + "\n".length),
+          );
           break;
         case VirtualKeyboardKeyAction.Space:
-          textController.text += key.text!;
+          // Insert space at selected position, replacing selected characters, fix selection position to end of edit
+          final text = textController.text;
+          final selection = textController.selection;
+          final newText = text.replaceRange(selection.start, selection.end, key.text!);
+          textController.value = TextEditingValue(
+            text: newText,
+            selection: TextSelection.collapsed(offset: selection.start + key.text!.length),
+          );
           break;
         case VirtualKeyboardKeyAction.Shift:
           break;

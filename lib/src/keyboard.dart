@@ -23,6 +23,13 @@ class VirtualKeyboard extends StatefulWidget {
   /// Font size for keyboard keys.
   final double fontSize;
 
+  /// the custom layout for multi or single language
+  final VirtualKeyboardLayoutKeys? customLayoutKeys;
+
+  /// used for multi-languages with default layouts, the default is English only
+  /// will be ignored if customLayoutKeys is not null
+  final List<VirtualKeyboardDefaultLayouts> defaultLayouts;
+
   /// The builder function will be called for each Key object.
   final Widget Function(BuildContext context, VirtualKeyboardKey key)? builder;
 
@@ -34,11 +41,13 @@ class VirtualKeyboard extends StatefulWidget {
   VirtualKeyboard(
       {Key? key,
       required this.type,
+      required this.defaultLayouts,
       this.textController,
       this.builder,
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
       this.fontSize = 14,
+      this.customLayoutKeys,
       this.onKeyPress,
       this.alwaysCaps = false})
       : super(key: key);
@@ -62,6 +71,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   // Text Style for keys.
   late TextStyle textStyle;
   late Function(VirtualKeyboardKey)? onKeyPress;
+  late VirtualKeyboardLayoutKeys? customLayoutKeys;
 
   // True if shift is enabled.
   bool isShiftEnabled = false;
@@ -76,6 +86,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       fontSize = widget.fontSize;
       alwaysCaps = widget.alwaysCaps;
       onKeyPress = widget.onKeyPress;
+      customLayoutKeys = widget.customLayoutKeys ?? customLayoutKeys;
 
       // Init the Text Style for keys.
       textStyle = TextStyle(
@@ -96,6 +107,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     fontSize = widget.fontSize;
     alwaysCaps = widget.alwaysCaps;
     onKeyPress = widget.onKeyPress;
+    customLayoutKeys = widget.customLayoutKeys ??
+        VirtualKeyboardDefaultLayoutKeys(widget.defaultLayouts);
 
     // Init the Text Style for keys.
     textStyle = TextStyle(
@@ -136,7 +149,10 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   /// Returns the rows for keyboard.
   List<Widget> _rows() {
     // Get the keyboard Rows
-    List<List<VirtualKeyboardKey>> keyboardRows = type == VirtualKeyboardType.Numeric ? _getKeyboardRowsNumeric() : _getKeyboardRows();
+    List<List<VirtualKeyboardKey>> keyboardRows =
+        type == VirtualKeyboardType.Numeric
+            ? _getKeyboardRowsNumeric()
+            : _getKeyboardRows(customLayoutKeys!);
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
@@ -150,7 +166,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             keyboardRows[rowNum].length,
             (int keyNum) {
               // Get the VirtualKeyboardKey object.
-              VirtualKeyboardKey virtualKeyboardKey = keyboardRows[rowNum][keyNum];
+              VirtualKeyboardKey virtualKeyboardKey =
+                  keyboardRows[rowNum][keyNum];
 
               Widget keyWidget;
 
@@ -201,10 +218,12 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         }
       },
       child: Container(
-        height: height / _keyRows.length,
+        height: height / customLayoutKeys!.activeLayout.length,
         child: Center(
             child: Text(
-          alwaysCaps ? key.capsText! : (isShiftEnabled ? key.capsText! : key.text!),
+          alwaysCaps
+              ? key.capsText!
+              : (isShiftEnabled ? key.capsText! : key.text!),
           style: textStyle,
         )),
       ),
@@ -216,10 +235,12 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       // Insert text at selected position, replacing selected characters, fix selection position to end of edit
       final text = textController.text;
       final selection = textController.selection;
-      final newText = text.replaceRange(selection.start, selection.end, (isShiftEnabled ? key.capsText! : key.text!));
+      final newText = text.replaceRange(selection.start, selection.end,
+          (isShiftEnabled ? key.capsText! : key.text!));
       textController.value = TextEditingValue(
         text: newText,
-        selection: TextSelection.collapsed(offset: selection.start + key.text!.length),
+        selection:
+            TextSelection.collapsed(offset: selection.start + key.text!.length),
       );
     } else if (key.keyType == VirtualKeyboardKeyType.Action) {
       switch (key.action) {
@@ -233,9 +254,10 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           if (selection.baseOffset > 0 && selection.start != selection.end) {
             newText = text.replaceRange(selection.start, selection.end, "");
             offset = selection.start;
-          } else if (selection.baseOffset > 0){
-            newText = text.substring(0, selection.baseOffset-1) + text.substring(selection.baseOffset, text.length);
-            offset = selection.baseOffset-1;
+          } else if (selection.baseOffset > 0) {
+            newText = text.substring(0, selection.baseOffset - 1) +
+                text.substring(selection.baseOffset, text.length);
+            offset = selection.baseOffset - 1;
           }
           textController.value = TextEditingValue(
             text: newText,
@@ -246,20 +268,24 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           // Insert newline at selected position, replacing selected characters, fix selection position to end of edit
           final text = textController.text;
           final selection = textController.selection;
-          final newText = text.replaceRange(selection.start, selection.end, "\n");
+          final newText =
+              text.replaceRange(selection.start, selection.end, "\n");
           textController.value = TextEditingValue(
             text: newText,
-            selection: TextSelection.collapsed(offset: selection.start + "\n".length),
+            selection:
+                TextSelection.collapsed(offset: selection.start + "\n".length),
           );
           break;
         case VirtualKeyboardKeyAction.Space:
           // Insert space at selected position, replacing selected characters, fix selection position to end of edit
           final text = textController.text;
           final selection = textController.selection;
-          final newText = text.replaceRange(selection.start, selection.end, key.text!);
+          final newText =
+              text.replaceRange(selection.start, selection.end, key.text!);
           textController.value = TextEditingValue(
             text: newText,
-            selection: TextSelection.collapsed(offset: selection.start + key.text!.length),
+            selection: TextSelection.collapsed(
+                offset: selection.start + key.text!.length),
           );
           break;
         case VirtualKeyboardKeyAction.Shift:
@@ -281,7 +307,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             onLongPress: () {
               longPress = true;
               // Start sending backspace key events while longPress is true
-              Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
+              Timer.periodic(
+                  Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
+                  (timer) {
                 if (longPress) {
                   if (onKeyPress != null) {
                     onKeyPress!(key);
@@ -319,6 +347,22 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           color: textColor,
         );
         break;
+      case VirtualKeyboardKeyAction.SwithLanguage:
+        actionKey = GestureDetector(
+            onTap: () {
+              setState(() {
+                customLayoutKeys!.switchLanguage();
+              });
+            },
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: Icon(
+                Icons.language,
+                color: textColor,
+              ),
+            ));
+        break;
     }
 
     return Expanded(
@@ -340,7 +384,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         },
         child: Container(
           alignment: Alignment.center,
-          height: height / _keyRows.length,
+          height: height / customLayoutKeys!.activeLayout.length,
           child: actionKey,
         ),
       ),

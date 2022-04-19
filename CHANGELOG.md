@@ -1,3 +1,6 @@
+
+## [1.0.0] - 4/19/2022.
+* Support multiple language - Arabic (PR #2 from OlehVedernikov)
 ## [0.0.6] - 3/24/2022.
 * Improve handling of TextEditingController (PR #1 from Renee)
 ## [0.0.5] - 12/27/2021.

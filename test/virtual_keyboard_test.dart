@@ -8,6 +8,10 @@ void main() {
     final keyboard = VirtualKeyboard(
       type: VirtualKeyboardType.Alphanumeric,
       textController: _controllerText,
+      defaultLayouts: [
+        VirtualKeyboardDefaultLayouts.English,
+        VirtualKeyboardDefaultLayouts.Arabic,
+      ],
     );
     expect(keyboard.type, VirtualKeyboardType.Alphanumeric);
   });

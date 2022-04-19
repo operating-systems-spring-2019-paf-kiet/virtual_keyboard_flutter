@@ -52,7 +52,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: <Widget>[
             Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
                 child: TextField(
                   controller: _controllerText,
                   decoration: const InputDecoration(
@@ -62,7 +63,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 )),
             SwitchListTile(
               title: Text(
-                'Keyboard Type = ' + (isNumericMode ? 'VirtualKeyboardType.Numeric' : 'VirtualKeyboardType.Alphanumeric'),
+                'Keyboard Type = ' +
+                    (isNumericMode
+                        ? 'VirtualKeyboardType.Numeric'
+                        : 'VirtualKeyboardType.Alphanumeric'),
               ),
               value: isNumericMode,
               onChanged: (val) {
@@ -77,10 +81,17 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               color: Colors.deepPurple,
               child: VirtualKeyboard(
-                  height: 300,
-                  textColor: Colors.white,
-                  type: isNumericMode ? VirtualKeyboardType.Numeric : VirtualKeyboardType.Alphanumeric,
-                  textController: _controllerText),
+                height: 300,
+                textColor: Colors.white,
+                type: isNumericMode
+                    ? VirtualKeyboardType.Numeric
+                    : VirtualKeyboardType.Alphanumeric,
+                textController: _controllerText,
+                defaultLayouts: [
+                  VirtualKeyboardDefaultLayouts.English,
+                  VirtualKeyboardDefaultLayouts.Arabic,
+                ],
+              ),
             )
           ],
         ),

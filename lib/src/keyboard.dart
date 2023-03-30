@@ -34,7 +34,7 @@ class VirtualKeyboard extends StatefulWidget {
   final Widget Function(BuildContext context, VirtualKeyboardKey key)? builder;
 
   /// Set to true if you want only to show Caps letters.
-  final bool alwaysCaps;
+  bool alwaysCaps, isShiftEnabled;
 
   final Function(VirtualKeyboardKey key)? onKeyPress;
 
@@ -49,6 +49,7 @@ class VirtualKeyboard extends StatefulWidget {
       this.fontSize = 14,
       this.customLayoutKeys,
       this.onKeyPress,
+      this.isShiftEnabled = false,
       this.alwaysCaps = false})
       : super(key: key);
 
@@ -74,7 +75,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   late VirtualKeyboardLayoutKeys? customLayoutKeys;
 
   // True if shift is enabled.
-  bool isShiftEnabled = false;
+  // bool isShiftEnabled = false;
 
   @override
   void didUpdateWidget(VirtualKeyboard oldWidget) {
@@ -223,7 +224,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             child: Text(
           alwaysCaps
               ? key.capsText!
-              : (isShiftEnabled ? key.capsText! : key.text!),
+              : (widget.isShiftEnabled ? key.capsText! : key.text!),
           style: textStyle,
         )),
       ),
@@ -236,7 +237,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       final text = textController.text;
       final selection = textController.selection;
       final newText = text.replaceRange(selection.start, selection.end,
-          (isShiftEnabled ? key.capsText! : key.text!));
+          (widget.isShiftEnabled ? key.capsText! : key.text!));
       textController.value = TextEditingValue(
         text: newText,
         selection:
@@ -371,7 +372,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           if (key.action == VirtualKeyboardKeyAction.Shift) {
             if (!alwaysCaps) {
               setState(() {
-                isShiftEnabled = !isShiftEnabled;
+                widget.isShiftEnabled = !widget.isShiftEnabled;
               });
             }
           }
